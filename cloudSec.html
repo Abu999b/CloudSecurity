@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Security Preparation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .aws-card .card-icon {
+            color: #FF9900;
+        }
+
+        .lfcs-card .card-icon {
+            color: #0066CC;
+        }
+
+        .compsec-card .card-icon {
+            color: #28a745;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .card-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cloud Security Preparation</h1>
+        <p class="subtitle">Choose your certification path and start your journey to cloud security mastery</p>
+        
+        <div class="cards-container">
+            <div class="card aws-card" onclick="redirectTo('aws.html')">
+                <div class="card-icon">☁️</div>
+                <h3>AWS Security</h3>
+                <p>Master Amazon Web Services security fundamentals, IAM, encryption, and compliance best practices.</p>
+                <button class="card-button">Start AWS Prep</button>
+            </div>
+            
+            <div class="card lfcs-card" onclick="redirectTo('lfcs.html')">
+                <div class="card-icon">🐧</div>
+                <h3>LFCS Certification</h3>
+                <p>Linux Foundation Certified System Administrator - Essential Linux skills for cloud environments.</p>
+                <button class="card-button">Start LFCS Prep</button>
+            </div>
+            
+            <div class="card compsec-card" onclick="redirectTo('compSec+.html')">
+                <div class="card-icon">🔒</div>
+                <h3>CompTIA Security+</h3>
+                <p>Build foundational cybersecurity knowledge with CompTIA's industry-recognized certification.</p>
+                <button class="card-button">Start Security+ Prep</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Select a certification track to begin your preparation journey</p>
+        </div>
+    </div>
+
+    <script>
+        function redirectTo(page) {
+            // Add a small delay for better user experience
+            setTimeout(() => {
+                window.location.href = page;
+            }, 200);
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '1') redirectTo('aws.html');
+            if (e.key === '2') redirectTo('lfcs.html');
+            if (e.key === '3') redirectTo('compSec+.html');
+        });
+
+        // Add some interactive feedback
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

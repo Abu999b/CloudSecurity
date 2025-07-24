@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Command Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            background: white;
+            color: #2c3e50;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #searchInput::placeholder {
+            color: #7f8c8d;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #3498db;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 2px solid #bdc3c7;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .command-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+
+        .command-item:hover {
+            background: #ecf0f1;
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+        }
+
+        .command-name {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-desc {
+            color: #2c3e50;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .highlight {
+            background: rgba(255, 193, 7, 0.6);
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .command-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐧 Linux Command Reference</h1>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search commands... (e.g., 'ls', 'chmod', 'process')">
+        </div>
+
+        <div class="category-nav">
+            <button class="nav-btn active" data-category="all">All</button>
+            <button class="nav-btn" data-category="essential">Essential</button>
+            <button class="nav-btn" data-category="files">Files</button>
+            <button class="nav-btn" data-category="users">Users</button>
+            <button class="nav-btn" data-category="processes">Processes</button>
+            <button class="nav-btn" data-category="network">Network</button>
+            <button class="nav-btn" data-category="storage">Storage</button>
+            <button class="nav-btn" data-category="services">Services</button>
+            <button class="nav-btn" data-category="security">Security</button>
+            <button class="nav-btn" data-category="packages">Packages</button>
+        </div>
+
+        <div id="sectionsContainer">
+            <!-- Sections will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const commandData = {
+            essential: {
+                title: "🔧 Essential Commands",
+                commands: [
+                    { name: "pwd", desc: "Prints your current working directory. Useful for orientation in CLI navigation." },
+                    { name: "cd", desc: "Changes directories. Use cd .. to move up one level, cd ~ to home." },
+                    { name: "ls -l", desc: "Lists files with details like permissions, owner, size, and timestamps." },
+                    { name: "cp, mv, rm", desc: "Copy, move/rename, and remove files. rm -r removes directories." },
+                    { name: "find", desc: "Searches for files based on name, size, type, or time. Example: find / -name \"*.conf\"." },
+                    { name: "grep", desc: "Searches for text patterns inside files. Example: grep \"root\" /etc/passwd." },
+                    { name: "history", desc: "Shows previously used commands. Use !n or !command to repeat." },
+                    { name: "man, --help", desc: "Displays manual or help for any command. Example: man ls, ls --help." }
+                ]
+            },
+            files: {
+                title: "📁 File and Directory Management",
+                commands: [
+                    { name: "touch", desc: "Creates an empty file or updates timestamps of a file." },
+                    { name: "mkdir -p", desc: "Creates directory and parent directories as needed." },
+                    { name: "ln (hard & soft)", desc: "ln creates hard links (same inode); ln -s makes symbolic links (shortcuts)." },
+                    { name: "File permissions", desc: "Three sets: User, Group, Others. Use chmod, chown, and chgrp to modify." },
+                    { name: "umask", desc: "Defines default permission mask for new files and directories." },
+                    { name: "stat", desc: "Shows detailed metadata (inode, timestamps, permissions) of a file." }
+                ]
+            },
+            users: {
+                title: "🧰 User and Group Management",
+                commands: [
+                    { name: "adduser / useradd", desc: "Adds a new user to the system. adduser is more interactive." },
+                    { name: "passwd", desc: "Sets or changes a user's password. Use passwd user as root for others." },
+                    { name: "id / groups", desc: "Displays UID, GID, and group memberships." },
+                    { name: "usermod", desc: "Modifies user details. Example: usermod -aG wheel user adds to group." },
+                    { name: "deluser / userdel", desc: "Removes user account. Use -r to delete the home directory." },
+                    { name: "/etc/passwd", desc: "Stores user info (username, UID, GID, home dir, shell)." },
+                    { name: "/etc/shadow", desc: "Stores encrypted passwords and expiry info. Root access only." }
+                ]
+            },
+            processes: {
+                title: "🚀 Process Management",
+                commands: [
+                    { name: "ps, top, htop", desc: "Shows running processes and system resource usage." },
+                    { name: "kill / killall", desc: "Terminates processes by PID or name. kill -9 forcefully stops." },
+                    { name: "nice / renice", desc: "Adjusts process priority. Lower nice = higher priority." },
+                    { name: "&, jobs, fg/bg", desc: "Run in background with &. Use fg/bg to manage jobs." },
+                    { name: "systemctl", desc: "Used to manage systemd services and processes. Example: systemctl restart nginx." }
+                ]
+            },
+            network: {
+                title: "🧱 Networking",
+                commands: [
+                    { name: "ip a", desc: "Shows IP addresses and interfaces. Replaces ifconfig." },
+                    { name: "ping, traceroute", desc: "Checks network connectivity and path to destination." },
+                    { name: "netstat / ss", desc: "Lists open ports and active network connections." },
+                    { name: "hostname, host", desc: "Shows or sets system hostname. host resolves domain to IP." },
+                    { name: "DNS config", desc: "/etc/resolv.conf contains nameserver settings." },
+                    { name: "Hosts file", desc: "/etc/hosts maps IP to hostnames manually." }
+                ]
+            },
+            storage: {
+                title: "💽 Storage & Partitioning",
+                commands: [
+                    { name: "lsblk, blkid", desc: "Lists block devices and shows filesystem types/UUIDs." },
+                    { name: "fdisk, parted", desc: "Tools to create and manage disk partitions." },
+                    { name: "mkfs", desc: "Creates a filesystem. Example: mkfs.ext4 /dev/sdb1." },
+                    { name: "mount, umount", desc: "Attaches or detaches filesystems." },
+                    { name: "/etc/fstab", desc: "Config file for mounting filesystems at boot." },
+                    { name: "df -h", desc: "Shows used and free disk space." },
+                    { name: "du -sh folder/", desc: "Shows size of a directory. Useful for finding storage hogs." }
+                ]
+            },
+            services: {
+                title: "🧯 System Services & Boot",
+                commands: [
+                    { name: "systemctl", desc: "Used to manage systemd services. Example: systemctl status ssh." },
+                    { name: "journalctl", desc: "Views system logs. Use -xe for errors, --since for date filtering." },
+                    { name: "crontab -e", desc: "Schedules tasks. Syntax: min hr day month day-of-week command." },
+                    { name: "Boot targets", desc: "Examples: multi-user.target, graphical.target. Use systemctl get-default." },
+                    { name: "GRUB", desc: "Default Linux bootloader; located in /boot/grub2 or /boot/grub." }
+                ]
+            },
+            security: {
+                title: "🔐 Security",
+                commands: [
+                    { name: "File permissions", desc: "Use chmod to change (e.g., chmod 755 file.sh); 4=read, 2=write, 1=execute." },
+                    { name: "Ownership", desc: "chown user:group file changes the owner and group." },
+                    { name: "sudo / /etc/sudoers", desc: "Grants root-level access to users. Edit safely using visudo." },
+                    { name: "SSH", desc: "Secure shell for remote access. Config in /etc/ssh/sshd_config." },
+                    { name: "Firewalls", desc: "Use ufw or firewalld to manage firewall rules." },
+                    { name: "SELinux / AppArmor", desc: "Mandatory access control tools (RedHat uses SELinux, Ubuntu uses AppArmor)." }
+                ]
+            },
+            packages: {
+                title: "📦 Package Management",
+                commands: [
+                    { name: "apt, yum, dnf", desc: "Used to install, update, or remove packages (Ubuntu = apt, RHEL = yum/dnf)." },
+                    { name: "dpkg, rpm", desc: "Low-level package tools for .deb or .rpm systems respectively." },
+                    { name: "apt update && upgrade", desc: "Updates repo index and upgrades installed packages." },
+                    { name: "Repos & Sources", desc: "Ubuntu uses /etc/apt/sources.list; RHEL uses .repo files in /etc/yum.repos.d/." }
+                ]
+            }
+        };
+
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        function createCommandElement(command) {
+            const div = document.createElement('div');
+            div.className = 'command-item';
+            div.innerHTML = `
+                <div class="command-name">${command.name}</div>
+                <div class="command-desc">${command.desc}</div>
+            `;
+            return div;
+        }
+
+        function createSectionElement(key, section) {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'section';
+            sectionDiv.dataset.category = key;
+            
+            const title = document.createElement('h2');
+            title.textContent = section.title;
+            
+            const grid = document.createElement('div');
+            grid.className = 'command-grid';
+            
+            section.commands.forEach(command => {
+                grid.appendChild(createCommandElement(command));
+            });
+            
+            sectionDiv.appendChild(title);
+            sectionDiv.appendChild(grid);
+            
+            return sectionDiv;
+        }
+
+        function renderSections() {
+            const container = document.getElementById('sectionsContainer');
+            container.innerHTML = '';
+            
+            Object.keys(commandData).forEach(key => {
+                container.appendChild(createSectionElement(key, commandData[key]));
+            });
+        }
+
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function filterContent() {
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                const category = section.dataset.category;
+                let sectionVisible = false;
+                
+                if (currentFilter === 'all' || currentFilter === category) {
+                    const commandItems = section.querySelectorAll('.command-item');
+                    
+                    commandItems.forEach(item => {
+                        const commandName = item.querySelector('.command-name').textContent.toLowerCase();
+                        const commandDesc = item.querySelector('.command-desc').textContent.toLowerCase();
+                        const searchLower = searchTerm.toLowerCase();
+                        
+                        if (!searchTerm || commandName.includes(searchLower) || commandDesc.includes(searchLower)) {
+                            item.classList.remove('hidden');
+                            sectionVisible = true;
+                            
+                            // Highlight search terms
+                            if (searchTerm) {
+                                const nameEl = item.querySelector('.command-name');
+                                const descEl = item.querySelector('.command-desc');
+                                nameEl.innerHTML = highlightText(nameEl.textContent, searchTerm);
+                                descEl.innerHTML = highlightText(descEl.textContent, searchTerm);
+                            }
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+                }
+                
+                section.classList.toggle('hidden', !sectionVisible);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderSections(); // Re-render to reset highlights
+            filterContent();
+        });
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.category;
+                renderSections(); // Re-render to reset highlights
+                filterContent();
+            });
+        });
+
+        // Initialize
+        renderSections();
+        filterContent();
+
+        // Add click sound effect simulation
+        document.querySelectorAll('.command-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    item.style.transform = '';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

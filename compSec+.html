@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Cybersecurity Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-container {
+            margin: 20px 30px;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .content {
+            padding: 0 30px 30px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #43a1f5, #00e5f2);
+        }
+
+        .section-content {
+            background: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .section-content.active {
+            max-height: 2000px;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 25px;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #f6f9fc, #ffffff);
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .concept-card:hover::before {
+            width: 8px;
+        }
+
+        .concept-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .concept-description {
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .memory-tricks {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            margin: 25px;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #e17055;
+        }
+
+        .memory-tricks h3 {
+            color: #2d3436;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .memory-tricks ul {
+            list-style: none;
+        }
+
+        .memory-tricks li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .memory-tricks li::before {
+            content: '🧠';
+            position: absolute;
+            left: 0;
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2em;
+        }
+
+        .arrow.rotated {
+            transform: rotate(90deg);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Cybersecurity Study Guide</h1>
+            <p>Interactive Reference for Security Professionals</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search concepts..." id="searchBox">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="content">
+            <div class="section" data-section="threats">
+                <div class="section-header" onclick="toggleSection('threats')">
+                    🔐 1. Threats, Attacks & Vulnerabilities
+                    <span class="arrow" id="arrow-threats">▶</span>
+                </div>
+                <div class="section-content" id="content-threats">
+                    <div class="concept-grid">
+                        <div class="concept-card" data-keywords="malware virus trojan ransomware antivirus">
+                            <div class="concept-title">Malware</div>
+                            <div class="concept-description">Malicious software like viruses, worms, Trojans, ransomware. Antivirus and regular updates help prevent it.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="phishing social engineering email credentials">
+                            <div class="concept-title">Phishing</div>
+                            <div class="concept-description">Social engineering via email to trick users into revealing credentials or installing malware.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="dos ddos denial service attack firewall">
+                            <div class="concept-title">DoS / DDoS</div>
+                            <div class="concept-description">Denial of Service attacks overwhelm a system; DDoS uses multiple sources. Mitigate with firewalls/load balancers.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="zero-day vulnerability patch ids behavioral">
+                            <div class="concept-title">Zero-day</div>
+                            <div class="concept-description">An unknown vulnerability with no patch. Detected via anomaly-based IDS or behavioral monitoring.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="brute-force password attack combination lockout">
+                            <div class="concept-title">Brute-force attack</div>
+                            <div class="concept-description">Tries all possible password combinations. Use account lockout and complex passwords to prevent.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="insider threat trusted access privilege auditing">
+                            <div class="concept-title">Insider threat</div>
+                            <div class="concept-description">A trusted person misusing access. Least privilege and auditing help reduce risk.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="sql injection malicious input validation parameterized">
+                            <div class="concept-title">SQL Injection</div>
+                            <div class="concept-description">Inserting malicious SQL in input fields. Prevent with input validation and parameterized queries.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="botnet infected devices attacker ddos">
+                            <div class="concept-title">Botnet</div>
+                            <div class="concept-description">Network of infected devices controlled by an attacker. Often used in DDoS attacks.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" data-section="architecture">
+                <div class="section-header" onclick="toggleSection('architecture')">
+                    🔒 2. Architecture & Design
+                    <span class="arrow" id="arrow-architecture">▶</span>
+                </div>
+                <div class="section-content" id="content-architecture">
+                    <div class="concept-grid">
+                        <div class="concept-card" data-keywords="defense depth layered security firewall antivirus">
+                            <div class="concept-title">Defense in Depth</div>
+                            <div class="concept-description">Layered security (firewalls, antivirus, access controls, etc.) to reduce attack risk.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="zero trust never verify authentication">
+                            <div class="concept-title">Zero Trust</div>
+                            <div class="concept-description">Never trust, always verify—every access request is authenticated.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="dmz demilitarized zone web server internal external">
+                            <div class="concept-title">DMZ (Demilitarized Zone)</div>
+                            <div class="concept-description">Public-facing services (like web servers) placed between internal and external networks.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="segmentation network vlan subnet lateral movement">
+                            <div class="concept-title">Segmentation</div>
+                            <div class="concept-description">Splitting networks for better security (e.g., VLANs, subnets). Limits lateral movement.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="cloud models iaas paas saas infrastructure platform">
+                            <div class="concept-title">Cloud Models</div>
+                            <div class="concept-description">IaaS = infrastructure, PaaS = platform for devs, SaaS = full applications.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="on-prem cloud control scalability hybrid">
+                            <div class="concept-title">On-Prem vs Cloud</div>
+                            <div class="concept-description">On-prem offers control; cloud offers scalability and offloading. Hybrid is a mix.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="iot security devices patch monitor defaults">
+                            <div class="concept-title">IoT Security</div>
+                            <div class="concept-description">IoT devices must be patched and monitored due to weak defaults and exposure.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" data-section="implementation">
+                <div class="section-header" onclick="toggleSection('implementation')">
+                    🧑‍💼 3. Implementation
+                    <span class="arrow" id="arrow-implementation">▶</span>
+                </div>
+                <div class="section-content" id="content-implementation">
+                    <div class="concept-grid">
+                        <div class="concept-card" data-keywords="firewall traffic rules ip port protocol hardware software">
+                            <div class="concept-title">Firewall</div>
+                            <div class="concept-description">Filters traffic based on rules (IP, port, protocol). Can be hardware or software.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="vpn encrypted tunnel remote access ipsec ssl">
+                            <div class="concept-title">VPN</div>
+                            <div class="concept-description">Encrypted tunnel for remote access. Uses protocols like IPsec or SSL.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="tls ssl encrypts web traffic https">
+                            <div class="concept-title">TLS/SSL</div>
+                            <div class="concept-description">Encrypts web traffic (HTTPS). TLS is newer and more secure than SSL.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="mfa multi-factor auth password otp know have">
+                            <div class="concept-title">MFA (Multi-Factor Auth)</div>
+                            <div class="concept-description">Uses two or more types: something you know, have, or are (e.g., password + OTP).</div>
+                        </div>
+                        <div class="concept-card" data-keywords="nac network access control devices security posture antivirus patches">
+                            <div class="concept-title">NAC (Network Access Control)</div>
+                            <div class="concept-description">Restricts devices based on security posture (e.g., antivirus, patches).</div>
+                        </div>
+                        <div class="concept-card" data-keywords="siem security information event management log analysis alerts">
+                            <div class="concept-title">SIEM</div>
+                            <div class="concept-description">Security Information and Event Management—centralized log analysis and alerts.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="ids ips intrusion detection prevention network host">
+                            <div class="concept-title">IDS/IPS</div>
+                            <div class="concept-description">IDS detects attacks; IPS prevents them. Can be network-based or host-based.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" data-section="operations">
+                <div class="section-header" onclick="toggleSection('operations')">
+                    🧪 4. Operations & Incident Response
+                    <span class="arrow" id="arrow-operations">▶</span>
+                </div>
+                <div class="section-content" id="content-operations">
+                    <div class="concept-grid">
+                        <div class="concept-card" data-keywords="incident response preparation identification containment eradication recovery lessons">
+                            <div class="concept-title">Incident Response</div>
+                            <div class="concept-description">Steps: Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="forensics investigating attacks logs memory disk chain custody">
+                            <div class="concept-title">Forensics</div>
+                            <div class="concept-description">Investigating attacks using logs, memory, and disk images. Maintain chain of custody.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="soar security orchestration automation response incident handling">
+                            <div class="concept-title">SOAR</div>
+                            <div class="concept-description">Security Orchestration, Automation, and Response—automates incident handling.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="threat intelligence actors tools strategic tactical iocs">
+                            <div class="concept-title">Threat Intelligence</div>
+                            <div class="concept-description">Info about threat actors and tools. Can be strategic (long-term) or tactical (real-time IOCs).</div>
+                        </div>
+                        <div class="concept-card" data-keywords="dlp data loss prevention sensitive unauthorized transfers leaks">
+                            <div class="concept-title">Data Loss Prevention</div>
+                            <div class="concept-description">DLP tools monitor sensitive data and prevent unauthorized transfers or leaks.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="backup strategies 3-2-1 rule copies media offsite restore">
+                            <div class="concept-title">Backup Strategies</div>
+                            <div class="concept-description">Follow 3-2-1 rule: 3 copies, 2 media types, 1 offsite. Test restores regularly.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" data-section="governance">
+                <div class="section-header" onclick="toggleSection('governance')">
+                    📜 5. Governance, Risk & Compliance
+                    <span class="arrow" id="arrow-governance">▶</span>
+                </div>
+                <div class="section-content" id="content-governance">
+                    <div class="concept-grid">
+                        <div class="concept-card" data-keywords="risk assessment threats vulnerabilities qualitative quantitative">
+                            <div class="concept-title">Risk Assessment</div>
+                            <div class="concept-description">Identifies threats and vulnerabilities to calculate risk. Includes qualitative and quantitative methods.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="security policy documents rules behavior access training audits">
+                            <div class="concept-title">Security Policy</div>
+                            <div class="concept-description">Documents rules for behavior, access, and system usage. Enforced through training and audits.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="privacy security personal data systems protection">
+                            <div class="concept-title">Privacy vs Security</div>
+                            <div class="concept-description">Privacy = protection of personal data; Security = protection of systems and data.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="gdpr hipaa pci-dss regulations privacy security controls law">
+                            <div class="concept-title">GDPR, HIPAA, PCI-DSS</div>
+                            <div class="concept-description">Examples of regulations that enforce privacy and security controls by law.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="acceptable use policy users organizational systems misuse">
+                            <div class="concept-title">Acceptable Use Policy</div>
+                            <div class="concept-description">Defines what users are allowed to do on organizational systems. Prevents misuse.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="least privilege users access need compromised account">
+                            <div class="concept-title">Least Privilege</div>
+                            <div class="concept-description">Users get only the access they need. Reduces damage if account is compromised.</div>
+                        </div>
+                        <div class="concept-card" data-keywords="change management documented approved tested misconfigurations">
+                            <div class="concept-title">Change Management</div>
+                            <div class="concept-description">Ensures all changes are documented, approved, and tested. Reduces misconfigurations.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="memory-tricks">
+                <h3>🧠 Memory Tricks</h3>
+                <ul>
+                    <li><strong>CIA Triad</strong> = Confidentiality, Integrity, Availability</li>
+                    <li><strong>AAA</strong> = Authentication, Authorization, Accounting</li>
+                    <li><strong>Phishing variants</strong> = Spear (targeted), Whaling (VIPs), Vishing (voice), Smishing (SMS)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle section visibility
+        function toggleSection(sectionName) {
+            const content = document.getElementById(`content-${sectionName}`);
+            const arrow = document.getElementById(`arrow-${sectionName}`);
+            
+            content.classList.toggle('active');
+            arrow.classList.toggle('rotated');
+        }
+
+        // Search functionality
+        function searchConcepts() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const conceptCards = document.querySelectorAll('.concept-card');
+            const sections = document.querySelectorAll('.section');
+            
+            if (searchTerm === '') {
+                // Show all cards and close all sections
+                conceptCards.forEach(card => {
+                    card.classList.remove('hidden');
+                });
+                sections.forEach(section => {
+                    const content = section.querySelector('.section-content');
+                    const arrow = section.querySelector('.arrow');
+                    content.classList.remove('active');
+                    arrow.classList.remove('rotated');
+                });
+                return;
+            }
+            
+            let hasResults = false;
+            
+            sections.forEach(section => {
+                const content = section.querySelector('.section-content');
+                const arrow = section.querySelector('.arrow');
+                const cards = section.querySelectorAll('.concept-card');
+                let sectionHasResults = false;
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('.concept-title').textContent.toLowerCase();
+                    const description = card.querySelector('.concept-description').textContent.toLowerCase();
+                    const keywords = card.getAttribute('data-keywords').toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || keywords.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                        sectionHasResults = true;
+                        hasResults = true;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                // Open sections that have matching results
+                if (sectionHasResults) {
+                    content.classList.add('active');
+                    arrow.classList.add('rotated');
+                } else {
+                    content.classList.remove('active');
+                    arrow.classList.remove('rotated');
+                }
+            });
+        }
+
+        // Add search event listener
+        document.getElementById('searchBox').addEventListener('input', searchConcepts);
+
+        // Initialize with first section open
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleSection('threats');
+        });
+    </script>
+</body>
+</html>
